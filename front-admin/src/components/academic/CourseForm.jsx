@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-const CourseForm = ({ courseId, onFormSubmit, onCancel }) => {
+const CourseForm = ({ courseId, onCancel }) => {
   const {
     register,
     handleSubmit,
@@ -17,12 +17,16 @@ const CourseForm = ({ courseId, onFormSubmit, onCancel }) => {
   const [message, setMessage] = useState({ type: "", text: "" });
 
   useEffect(() => {
-    // Obtener lista de profesores (solo los que tengan el rol de profesor)
+    // Obtener lista de usuarios (solo los que tengan el rol de "professor")
     axios
-      .get("http://127.0.0.1:8000/api-django/auth/professors/")
+      .get("http://127.0.0.1:8000/api-django/auth/users/")
       .then((response) => {
-        setProfessors(response.data);
-        console.log("Profesores recibidos:", response.data); // Verifica que los datos sean correctos
+        // Filtrar usuarios solo por rol "professor"
+        const filteredProfessors = response.data.filter(
+          (user) => user.role === "professor"
+        );
+        setProfessors(filteredProfessors);
+        console.log("Profesores filtrados:", filteredProfessors); // Verifica que los datos sean correctos
       })
       .catch((error) => {
         console.error("Error fetching professors:", error);
@@ -65,16 +69,21 @@ const CourseForm = ({ courseId, onFormSubmit, onCancel }) => {
     setIsLoading(true);
     setMessage({ type: "", text: "" });
 
-    // Convertir professor y subject a enteros
+    // Construir las URLs completas para 'subject' y 'professor'
     const formattedData = {
       ...data,
-      professor: parseInt(data.professor, 10), // Convertir a entero
-      subject: parseInt(data.subject, 10), // Convertir a entero
+      professor: Array.isArray(data.professor)
+        ? `http://127.0.0.1:8000/api-django/auth/users/${data.professor[0]}/`
+        : `http://127.0.0.1:8000/api-django/auth/users/${data.professor}/`,
+      subject: Array.isArray(data.subject)
+        ? `http://127.0.0.1:8000/api-django/academic/subjects/${data.subject[0]}/`
+        : `http://127.0.0.1:8000/api-django/academic/subjects/${data.subject}/`,
     };
 
-    console.log("Datos enviados:", formattedData); // Verifica los datos convertidos
+    console.log("Datos enviados:", formattedData);
 
     if (isEditMode) {
+      // Actualizar curso existente
       axios
         .put(
           `http://127.0.0.1:8000/api-django/courses/courses/${courseId}/`,
@@ -85,15 +94,11 @@ const CourseForm = ({ courseId, onFormSubmit, onCancel }) => {
             type: "success",
             text: "Curso actualizado exitosamente",
           });
-          if (onFormSubmit) {
-            onFormSubmit(response.data);  // Asegurándonos de que `onFormSubmit` sea una función
-          }
           setTimeout(() => setMessage({ type: "", text: "" }), 3000);
         })
         .catch((error) => {
           console.error("Error updating course:", error);
           if (error.response) {
-            console.error("Detalles del error:", error.response.data); // Muestra el error detallado
             setMessage({
               type: "danger",
               text: `Error al actualizar el curso: ${
@@ -109,6 +114,7 @@ const CourseForm = ({ courseId, onFormSubmit, onCancel }) => {
         })
         .finally(() => setIsLoading(false));
     } else {
+      // Crear un nuevo curso
       axios
         .post(
           "http://127.0.0.1:8000/api-django/courses/courses/",
@@ -116,16 +122,12 @@ const CourseForm = ({ courseId, onFormSubmit, onCancel }) => {
         )
         .then((response) => {
           setMessage({ type: "success", text: "Curso creado exitosamente" });
-          if (onFormSubmit) {
-            onFormSubmit(response.data);  // Asegurándonos de que `onFormSubmit` sea una función
-          }
           reset();
           setTimeout(() => setMessage({ type: "", text: "" }), 3000);
         })
         .catch((error) => {
           console.error("Error creating course:", error);
           if (error.response) {
-            console.error("Detalles del error:", error.response.data); // Muestra el error detallado
             setMessage({
               type: "danger",
               text: `Error al crear el curso: ${
@@ -218,13 +220,11 @@ const CourseForm = ({ courseId, onFormSubmit, onCancel }) => {
                     {professors.length > 0 ? (
                       professors.map((professor) => (
                         <option key={professor.id} value={professor.id}>
-                          {professor.user_details
-                            ? `${professor.user_details.first_name} ${professor.user_details.last_name}`
-                            : "Sin nombre"}
+                          {professor.first_name} {professor.last_name}
                         </option>
                       ))
                     ) : (
-                      <option disabled>Cargando profesores...</option> // Muestra un mensaje si no hay profesores cargados
+                      <option disabled>Cargando profesores...</option>
                     )}
                   </select>
 
