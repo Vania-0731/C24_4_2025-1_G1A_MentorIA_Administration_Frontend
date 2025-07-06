@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { createCareer, getCareer, editCareer } from '../../services/careerService'; // Importamos las funciones del servicio
 
 const CareerForm = ({ careerId, onCancel }) => {
     const { register, handleSubmit, formState: { errors }, setValue, reset, watch } = useForm();
@@ -24,9 +24,9 @@ const CareerForm = ({ careerId, onCancel }) => {
         if (careerId) {
             setIsEditMode(true);
             setMessage({ type: '', text: '' }); // Limpiar mensajes
-            axios.get(`http://127.0.0.1:8000/api-django/academic/careers/${careerId}/`)
-                .then(response => {
-                    const careerData = response.data;
+            // Llamamos al servicio de edición de carrera
+            getCareer(careerId)
+                .then((careerData) => {
                     setValue('code', careerData.code); // No editable en modo edición
                     setValue('name', careerData.name);
                 })
@@ -54,24 +54,26 @@ const CareerForm = ({ careerId, onCancel }) => {
         setMessage({ type: '', text: '' });
 
         if (isEditMode) {
-            axios.put(`http://127.0.0.1:8000/api-django/academic/careers/${careerId}/`, data)
-                .then(response => {
+            // Llamamos al servicio de actualización de carrera
+            editCareer(careerId, data)
+                .then(() => {
                     setMessage({ type: 'success', text: 'Carrera actualizada exitosamente' });
                     setTimeout(() => setMessage({ type: '', text: '' }), 3000);
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error("Error updating career:", error);
                     setMessage({ type: 'danger', text: 'Error al actualizar la carrera' });
                 })
                 .finally(() => setIsLoading(false));
         } else {
-            axios.post('http://127.0.0.1:8000/api-django/academic/careers/', data)
-                .then(response => {
+            // Llamamos al servicio de creación de carrera
+            createCareer(data)
+                .then(() => {
                     setMessage({ type: 'success', text: 'Carrera creada exitosamente' });
                     reset(); // Limpiar formulario después de crear
                     setTimeout(() => setMessage({ type: '', text: '' }), 3000);
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error("Error creating career:", error);
                     setMessage({ type: 'danger', text: 'Error al crear la carrera' });
                 })
