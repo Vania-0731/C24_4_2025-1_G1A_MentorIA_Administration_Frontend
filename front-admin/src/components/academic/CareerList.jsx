@@ -5,10 +5,9 @@ import CareerForm from "./CareerForm";
 
 const CareerList = ({ onShowCarreraForm }) => {
   const [careers, setCareers] = useState([]);
-  const [selectedCareerId, setSelectedCareerId] = useState(null); // Estado para editar
+  const [selectedCareerId, setSelectedCareerId] = useState(null);
 
   useEffect(() => {
-    // Llamar a la función del servicio para obtener las carreras
     getCareers()
       .then((data) => {
         setCareers(data);

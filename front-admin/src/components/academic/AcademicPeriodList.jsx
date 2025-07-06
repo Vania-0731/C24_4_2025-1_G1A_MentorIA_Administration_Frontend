@@ -67,7 +67,7 @@ const AcademicPeriodList = () => {
       <div className="mt-5">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="mb-0">Lista de Períodos Académicos</h2>
-          <NavLink className="btn btn-outline-success" to="/create-period">
+          <NavLink className="btn btn-outline-success" to="/create-academic-period">
             <i className="bi bi-plus-square me-2"></i> Nuevo Período
           </NavLink>
         </div>
