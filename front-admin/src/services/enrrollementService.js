@@ -1,60 +1,88 @@
-import { getStudents } from './studentService'; // Asume que guardaste tu servicio de estudiantes como studentService.js
-import { getCourses } from './courseService';   // Asume que guardaste tu servicio de cursos como courseService.js
-import { getPeriods } from './academicPeriodService';   // Asume que guardaste tu servicio de períodos como periodService.js
+import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api-django/courses/enrollments/'; // Asegúrate de que esta sea la URL correcta
+const API_BASE_URL_ENROLLMENTS = 'http://localhost:8000/api-django/courses/enrollments/';
+const API_BASE_URL_STUDENTS = 'http://127.0.0.1:8000/api-django/auth/students/';
+const API_BASE_URL_COURSES = 'http://127.0.0.1:8000/api-django/courses/courses/';
+const API_BASE_URL_PERIODS = 'http://127.0.0.1:8000/api-django/academic/periods/';
 
 const enrollmentService = {
-  // Función para obtener la lista de matrículas
   getAllEnrollments: async () => {
     try {
-      const response = await fetch(API_BASE_URL);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return await response.json();
+      const response = await axios.get(API_BASE_URL_ENROLLMENTS);
+      return response.data;
     } catch (error) {
       console.error("Error fetching enrollments:", error);
       throw error;
     }
   },
 
-  // Función para crear una nueva matrícula
   createEnrollment: async (enrollmentData) => {
     try {
-      const response = await fetch(API_BASE_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Aquí puedes añadir encabezados adicionales si tu API lo requiere (e.g., tokens de autenticación)
-          // 'Authorization': `Token your_auth_token`,
-        },
-        body: JSON.stringify(enrollmentData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Error desconocido al crear matrícula' }));
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || JSON.stringify(errorData)}`);
-      }
-
-      return await response.json();
+      const response = await axios.post(API_BASE_URL_ENROLLMENTS, enrollmentData);
+      return response.data;
     } catch (error) {
       console.error("Error creating enrollment:", error);
+      console.error("Response data:", error.response?.data);
+      console.error("Response status:", error.response?.status);
+      console.error("Response headers:", error.response?.headers);
+      throw error;
+    }
+  },
+  getStudents: async () => {
+    try {
+      const response = await axios.get(API_BASE_URL_STUDENTS);
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener los estudiantes:", error);
       throw error;
     }
   },
 
-  // Funciones para obtener opciones de selects, usando los servicios importados
-  getStudents: async () => {
-    return await getStudents(); // Llama a la función getStudents del archivo studentService.js
-  },
-
   getCourses: async () => {
-    return await getCourses(); // Llama a la función getCourses del archivo courseService.js
+    try {
+      const response = await axios.get(API_BASE_URL_COURSES);
+      const courses = response.data;
+      const coursesWithDetails = await Promise.all(
+        courses.map(async (course) => {
+          try {
+            // Obtener detalles del subject
+            const subjectResponse = await axios.get(course.subject);
+            const subjectData = subjectResponse.data;
+
+            // Obtener detalles del professor
+            const professorResponse = await axios.get(course.professor);
+            const professorData = professorResponse.data;
+
+            return {
+              ...course,
+              subject_details: subjectData,
+              professor_details: professorData,
+              display_name: `${subjectData.name || subjectData.title || 'Sin nombre'} - ${professorData.first_name} ${professorData.last_name}`
+            };
+          } catch (error) {
+            console.error(`Error obteniendo detalles del curso ${course.id}:`, error);
+            return {
+              ...course,
+              display_name: `Curso ${course.id} - Error al cargar detalles`
+            };
+          }
+        })
+      );
+      return coursesWithDetails;
+    } catch (error) {
+      console.error("Error al obtener los cursos:", error);
+      throw error;
+    }
   },
 
   getPeriods: async () => {
-    return await getPeriods(); // Llama a la función getPeriods del archivo periodService.js
+    try {
+      const response = await axios.get(API_BASE_URL_PERIODS);
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener los períodos académicos:", error);
+      throw error;
+    }
   },
 };
 
