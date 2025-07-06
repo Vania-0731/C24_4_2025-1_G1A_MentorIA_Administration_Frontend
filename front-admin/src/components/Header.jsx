@@ -81,7 +81,7 @@ function Header({ minimal = false }) {
                       </h6>
                     </li>
                     <li>
-                      <NavLink className="dropdown-item header-dropdown-item" to="/list-careers">
+                      <NavLink className="dropdown-item header-dropdown-item" to="/list-carreras">
                         <div className="header-dropdown-icon bg-primary">
                           <i className="bi bi-mortarboard"></i>
                         </div>
@@ -156,7 +156,7 @@ function Header({ minimal = false }) {
                       </NavLink>
                     </li>
                     <li>
-                      <NavLink className="dropdown-item header-dropdown-item" to="/create-period">
+                      <NavLink className="dropdown-item header-dropdown-item" to="/create-academic-period">
                         <div className="header-dropdown-icon bg-secondary">
                           <i className="bi bi-plus-square"></i>
                         </div>
