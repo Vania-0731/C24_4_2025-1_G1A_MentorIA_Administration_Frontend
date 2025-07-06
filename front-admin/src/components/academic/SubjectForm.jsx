@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { createSubject, editSubject, getSubject } from '../../services/subjectService'; // Importamos las funciones del servicio
 
 const SubjectForm = ({ subjectId, onCancel }) => {
     const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm();
@@ -12,9 +12,9 @@ const SubjectForm = ({ subjectId, onCancel }) => {
         if (subjectId) {
             setIsEditMode(true);
             setMessage({ type: '', text: '' }); // Limpiar mensajes
-            axios.get(`http://127.0.0.1:8000/api-django/academic/subjects/${subjectId}/`)
-                .then(response => {
-                    const subjectData = response.data;
+            // Llamamos al servicio para obtener los datos de la materia
+            getSubject(subjectId)
+                .then(subjectData => {
                     setValue('name', subjectData.name);
                 })
                 .catch(error => {
@@ -33,25 +33,26 @@ const SubjectForm = ({ subjectId, onCancel }) => {
         setMessage({ type: '', text: '' });
 
         if (isEditMode) {
-            axios.put(`http://127.0.0.1:8000/api-django/academic/subjects/${subjectId}/`, data)
-                .then(response => {
+            // Llamamos al servicio para actualizar la materia
+            editSubject(subjectId, data)
+                .then(() => {
                     setMessage({ type: 'success', text: 'Materia actualizada exitosamente' });
-                    // Aquí ya no usamos onFormSubmit, todo se maneja internamente
-                    setTimeout(() => setMessage({ type: '', text: '' }), 3000); // Auto-ocultar mensaje después de 3 segundos
+                    setTimeout(() => setMessage({ type: '', text: '' }), 3000); // Ocultar mensaje después de 3 segundos
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error("Error updating subject:", error);
                     setMessage({ type: 'danger', text: 'Error al actualizar la materia' });
                 })
                 .finally(() => setIsLoading(false));
         } else {
-            axios.post('http://127.0.0.1:8000/api-django/academic/subjects/', data)
-                .then(response => {
+            // Llamamos al servicio para crear una nueva materia
+            createSubject(data)
+                .then(() => {
                     setMessage({ type: 'success', text: 'Materia creada exitosamente' });
                     reset(); // Limpiar formulario después de crear
-                    setTimeout(() => setMessage({ type: '', text: '' }), 3000); // Auto-ocultar mensaje después de 3 segundos
+                    setTimeout(() => setMessage({ type: '', text: '' }), 3000); // Ocultar mensaje después de 3 segundos
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error("Error creating subject:", error);
                     setMessage({ type: 'danger', text: 'Error al crear la materia' });
                 })
