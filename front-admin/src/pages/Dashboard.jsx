@@ -1,177 +1,148 @@
-import { useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-
-// Componentes de Usuarios
-import UserForm from '../components/users/UserForm';
-import AlumnoList from '../components/users/AlumnoList';
-import ProfesorList from '../components/users/ProfesorList';
-import AdminList from '../components/users/AdminList';
-
-// Componentes Académicos - Listas
-import CareerList from '../components/academic/CareerList';
-import SubjectList from '../components/academic/SubjectList';
-import AcademicPeriodList from '../components/academic/AcademicPeriodList';
-
-// Componentes Académicos - Formularios
-import CareerForm from '../components/academic/CareerForm';
-import SubjectForm from '../components/academic/SubjectForm';
-import AcademicPeriodForm from '../components/academic/AcademicPeriodForm';
-import CourseForm from '../components/academic/CourseForm';  // Importamos el formulario para designar profesor
+import { NavLink } from "react-router-dom";
 
 function Dashboard() {
-  // Estados para Listas de Usuarios
-  const [showAlumnoList, setShowAlumnoList] = useState(false);
-  const [showProfesorList, setShowProfesorList] = useState(false);
-  const [showAdminList, setShowAdminList] = useState(false);
-  
-  // Estados para Listas Académicas
-  const [showCarreras, setShowCarreras] = useState(false);
-  const [showCursos, setShowCursos] = useState(false);
-  const [showPeriodosAcademicos, setShowPeriodosAcademicos] = useState(false);
-  
-  // Estados para Formularios
-  const [showUserForm, setShowUserForm] = useState(false); 
-  const [showCarreraForm, setShowCarreraForm] = useState(false);
-  const [showCursoForm, setShowCursoForm] = useState(false);
-  const [showPeriodoForm, setShowPeriodoForm] = useState(false);
-  const [showAssignProfessorForm, setShowAssignProfessorForm] = useState(false);  // Nuevo estado para el formulario de asignación de profesor
-
-  // Función para esconder todos los componentes excepto el seleccionado
-  const showOnly = (setter, type) => {
-    // Ocultar todas las listas
-    setShowAlumnoList(false);
-    setShowProfesorList(false);
-    setShowAdminList(false);
-    setShowCarreras(false);
-    setShowCursos(false);
-    setShowPeriodosAcademicos(false);
-    
-    // Ocultar todos los formularios
-    setShowUserForm(false);
-    setShowCarreraForm(false);
-    setShowCursoForm(false);
-    setShowPeriodoForm(false);
-    setShowAssignProfessorForm(false);  // Ocultar el formulario de asignación de profesor
-
-    // Mostrar solo el componente seleccionado
-    setter(true);
-
-    // Si es la lista de Carreras, asegurarse de ocultar el formulario de Carreras
-    if (type !== "carrera") {
-      setShowCarreraForm(false);
-    }
-  };
-
-  // Función para determinar qué título mostrar
-  const getCurrentTitle = () => {
-    if (showAlumnoList) return "Lista de Alumnos";
-    if (showProfesorList) return "Lista de Profesores";
-    if (showAdminList) return "Lista de Administradores";
-    if (showCarreras) return "Lista de Carreras";
-    if (showCursos) return "Lista de Cursos";
-    if (showPeriodosAcademicos) return "Lista de Períodos Académicos";
-    if (showUserForm) return "Formulario de Usuario";
-    if (showCarreraForm) return "Formulario de Carrera";
-    if (showCursoForm) return "Formulario de Curso";
-    if (showPeriodoForm) return "Formulario de Período Académico";
-    if (showAssignProfessorForm) return "Designar Profesor a Curso";  // Título para el formulario de asignación
-    return "Bienvenido al Dashboard - Selecciona una opción del menú";
-  };
-  
-  
-
   return (
     <div className="dashboard-page">
-      <Header
-        // Funciones para Listas
-        onShowAlumnoList={() => showOnly(setShowAlumnoList)}
-        onShowProfesorList={() => showOnly(setShowProfesorList)}
-        onShowAdminList={() => showOnly(setShowAdminList)}
-        onShowCarreras={(type) => showOnly(setShowCarreras, type)}
-        onShowCursos={() => showOnly(setShowCursos)}
-        onShowPeriodosAcademicos={() => showOnly(setShowPeriodosAcademicos)}
-        
-        // Funciones para Formularios
-        onShowUserForm={() => showOnly(setShowUserForm)}
-        onShowCarreraForm={() => showOnly(setShowCarreraForm, "carrera")}
-        onShowCursoForm={() => showOnly(setShowCursoForm)}
-        onShowPeriodoForm={() => showOnly(setShowPeriodoForm)} // Aquí pasas la función
-        onShowAssignProfessorForm={() => showOnly(setShowAssignProfessorForm)} // Nueva función para asignar profesor
-      />
-      
       <div className="dashboard-container">
-        {/* Título dinámico */}
-        <div className="container-fluid py-3">
-          <div className="row">
+        <div className="container-fluid py-4">
+          
+          {/* Header de Bienvenida */}
+          <div className="row mb-4">
             <div className="col">
-              <h2 className="text-center mb-4">
-                <i className="bi bi-speedometer2 me-2"></i>
-                {getCurrentTitle()}
-              </h2>
+              <div className="bg-primary text-white rounded-3 p-4 shadow-sm">
+                <h1 className="h3 mb-2">
+                  <i className="bi bi-speedometer2 me-2"></i>
+                  Bienvenido al Dashboard de MentorIA
+                </h1>
+                <p className="mb-0 opacity-75">
+                  Gestiona tu sistema educativo de manera eficiente desde aquí
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Renderizado condicional de componentes */}
-        
-        {/* Página de bienvenida por defecto */}
-        {!showAlumnoList && !showProfesorList && !showAdminList && 
-         !showCarreras && !showCursos && !showPeriodosAcademicos &&
-         !showUserForm && !showCarreraForm && !showCursoForm && !showPeriodoForm && !showAssignProfessorForm && (
-          <div className="container text-center py-5">
-            <div className="row justify-content-center">
-              <div className="col-md-8">
-                <i className="bi bi-speedometer2 display-1 text-danger mb-4"></i>
-                <h3 className="mb-3">Bienvenido a MentorIA</h3>
-                <p className="lead text-muted">
-                  Selecciona una opción del menú superior para comenzar a gestionar 
-                  usuarios, carreras, cursos y períodos académicos.
-                </p>
-                <div className="row mt-5">
-                  <div className="col-md-6">
-                    <div className="card border-0 shadow-sm">
-                      <div className="card-body">
-                        <i className="bi bi-person-lines-fill display-4 text-primary mb-3"></i>
-                        <h5>Gestión de Usuarios</h5>
-                        <p className="text-muted">Administra alumnos, profesores y administradores</p>
-                      </div>
+          {/* Secciones de Acceso Rápido */}
+          <div className="row">
+            
+            {/* Gestión Académica */}
+            <div className="col-lg-6 mb-4">
+              <div className="card border-0 shadow-sm h-100">
+                <div className="card-header bg-primary text-white">
+                  <h5 className="card-title mb-0">
+                    <i className="bi bi-book me-2"></i>
+                    Gestión Académica
+                  </h5>
+                </div>
+                <div className="card-body">
+                  <div className="row g-3">
+                    <div className="col-6">
+                      <NavLink to="/list-carreras" className="btn btn-outline-primary w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none">
+                        <i className="bi bi-mortarboard fs-4 mb-2"></i>
+                        <span>Ver Carreras</span>
+                      </NavLink>
+                    </div>
+                    <div className="col-6">
+                      <NavLink to="/list-courses" className="btn btn-outline-primary w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none">
+                        <i className="bi bi-journal-bookmark fs-4 mb-2"></i>
+                        <span>Ver Cursos</span>
+                      </NavLink>
+                    </div>
+                    <div className="col-6">
+                      <NavLink to="/list-periods" className="btn btn-outline-primary w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none">
+                        <i className="bi bi-calendar-range fs-4 mb-2"></i>
+                        <span>Períodos</span>
+                      </NavLink>
+                    </div>
+                    <div className="col-6">
+                      <NavLink to="/assign-professor" className="btn btn-outline-primary w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none">
+                        <i className="bi bi-person-check fs-4 mb-2"></i>
+                        <span>Asignar Prof.</span>
+                      </NavLink>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="card border-0 shadow-sm">
-                      <div className="card-body">
-                        <i className="bi bi-book display-4 text-success mb-3"></i>
-                        <h5>Gestión Académica</h5>
-                        <p className="text-muted">Administra carreras, cursos y períodos académicos</p>
-                      </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Gestión de Usuarios */}
+            <div className="col-lg-6 mb-4">
+              <div className="card border-0 shadow-sm h-100">
+                <div className="card-header bg-success text-white">
+                  <h5 className="card-title mb-0">
+                    <i className="bi bi-person-lines-fill me-2"></i>
+                    Gestión de Usuarios
+                  </h5>
+                </div>
+                <div className="card-body">
+                  <div className="row g-3">
+                    <div className="col-6">
+                      <NavLink to="/list-alumnos" className="btn btn-outline-success w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none">
+                        <i className="bi bi-person-badge fs-4 mb-2"></i>
+                        <span>Ver Alumnos</span>
+                      </NavLink>
+                    </div>
+                    <div className="col-6">
+                      <NavLink to="/list-profesores" className="btn btn-outline-success w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none">
+                        <i className="bi bi-person-workspace fs-4 mb-2"></i>
+                        <span>Ver Profesores</span>
+                      </NavLink>
+                    </div>
+                    <div className="col-6">
+                      <NavLink to="/list-admins" className="btn btn-outline-success w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none">
+                        <i className="bi bi-person-gear fs-4 mb-2"></i>
+                        <span>Ver Admins</span>
+                      </NavLink>
+                    </div>
+                    <div className="col-6">
+                      <NavLink to="/create-user" className="btn btn-outline-success w-100 h-100 d-flex flex-column justify-content-center align-items-center text-decoration-none">
+                        <i className="bi bi-person-plus-fill fs-4 mb-2"></i>
+                        <span>Nuevo Usuario</span>
+                      </NavLink>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        )}
-        
-        {/* Listas de Usuarios */}
-        {showAlumnoList && <AlumnoList />}
-        {showProfesorList && <ProfesorList />}
-        {showAdminList && <AdminList />}
-        
-        {/* Listas Académicas */}
-        {showCarreras && <CareerList onShowCarreraForm={() => showOnly(setShowCarreraForm, "carrera")}/>}
-        {showCursos && <SubjectList onShowCursoForm={() => showOnly(setShowCursoForm)} />}
-        {showPeriodosAcademicos && <AcademicPeriodList onShowPeriodoForm={() => showOnly(setShowPeriodoForm)} />}
-        
-        {/* Formularios */}
-        {showUserForm && <UserForm />}
-        {showCarreraForm && <CareerForm />}
-        {showCursoForm && <SubjectForm />}
-        {showPeriodoForm && <AcademicPeriodForm />}
-        {showAssignProfessorForm && <CourseForm />} {/* Renderizamos el formulario de asignación de profesor */}
+
+          {/* Acciones Rápidas */}
+          <div className="row">
+            <div className="col-12">
+              <div className="card border-0 shadow-sm">
+                <div className="card-header bg-warning text-dark">
+                  <h5 className="card-title mb-0">
+                    <i className="bi bi-lightning-charge me-2"></i>
+                    Acciones Rápidas
+                  </h5>
+                </div>
+                <div className="card-body">
+                  <div className="row g-3">
+                    <div className="col-md-4">
+                      <NavLink to="/create-career" className="btn btn-warning w-100 d-flex align-items-center justify-content-center text-decoration-none">
+                        <i className="bi bi-plus-square me-2"></i>
+                        Nueva Carrera
+                      </NavLink>
+                    </div>
+                    <div className="col-md-4">
+                      <NavLink to="/create-course" className="btn btn-warning w-100 d-flex align-items-center justify-content-center text-decoration-none">
+                        <i className="bi bi-plus-square me-2"></i>
+                        Nuevo Curso
+                      </NavLink>
+                    </div>
+                    <div className="col-md-4">
+                      <NavLink to="/create-period" className="btn btn-warning w-100 d-flex align-items-center justify-content-center text-decoration-none">
+                        <i className="bi bi-plus-square me-2"></i>
+                        Nuevo Período
+                      </NavLink>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
-      
-      <Footer />
     </div>
   );
 }
