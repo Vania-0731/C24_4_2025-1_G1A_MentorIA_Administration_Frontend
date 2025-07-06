@@ -1,0 +1,221 @@
+/* Dashboard Styles */
+.dashboard-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Header de Bienvenida */
+.welcome-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  color: white;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+  margin-bottom: 2rem;
+}
+
+.welcome-header h1 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1.75rem;
+}
+
+.welcome-header p {
+  opacity: 0.9;
+  margin-bottom: 0;
+  font-size: 1.1rem;
+}
+
+/* Cards */
+.dashboard-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Headers */
+.card-header-academic {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  border-radius: 16px 16px 0 0;
+  padding: 1.25rem;
+  border: none;
+}
+
+.card-header-users {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+  color: white;
+  border-radius: 16px 16px 0 0;
+  padding: 1.25rem;
+  border: none;
+}
+
+.card-header-actions {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border-radius: 16px 16px 0 0;
+  padding: 1.25rem;
+  border: none;
+}
+
+.card-header h5 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Botones del Dashboard */
+.dashboard-btn {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  text-decoration: none;
+  color: #374151;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100px;
+  min-height: 100px;
+  font-weight: 500;
+}
+
+.dashboard-btn:hover {
+  border-color: #9ca3af;
+  background: #f9fafb;
+  color: #111827;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-btn i {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.dashboard-btn span {
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+/* Botones específicos por sección */
+.dashboard-btn.academic:hover {
+  border-color: #7c3aed;
+  background: linear-gradient(135deg, #f3f4f6 0%, #ede9fe 100%);
+  color: #7c3aed;
+}
+
+.dashboard-btn.users:hover {
+  border-color: #059669;
+  background: linear-gradient(135deg, #f3f4f6 0%, #d1fae5 100%);
+  color: #059669;
+}
+
+.dashboard-btn.actions:hover {
+  border-color: #d97706;
+  background: linear-gradient(135deg, #f3f4f6 0%, #fef3c7 100%);
+  color: #d97706;
+}
+
+/* Botones de acción rápida */
+.quick-action-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+}
+
+.quick-action-btn:hover {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+}
+
+.quick-action-btn i {
+  margin-right: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 0 10px;
+  }
+  
+  .welcome-header {
+    padding: 1.5rem;
+  }
+  
+  .welcome-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .dashboard-btn {
+    height: 80px;
+    min-height: 80px;
+    padding: 1rem 0.5rem;
+  }
+  
+  .dashboard-btn i {
+    font-size: 1.25rem;
+  }
+  
+  .dashboard-btn span {
+    font-size: 0.85rem;
+  }
+}
+
+/* Animaciones sutiles */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-card {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.dashboard-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.dashboard-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dashboard-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
