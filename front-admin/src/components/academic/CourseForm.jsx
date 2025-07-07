@@ -84,7 +84,7 @@ const CourseForm = ({ courseId, onCancel }) => {
       // Actualizar curso existente
       axios
         .put(
-          `http://127.0.0.1:8000/api-django/courses/courses/${courseId}/`,
+          `${import.meta.env.VITE_API_DJANGO_URL}courses/courses/${courseId}/`,
           formattedData
         )
         .then((response) => {
@@ -115,7 +115,7 @@ const CourseForm = ({ courseId, onCancel }) => {
       // Crear un nuevo curso
       axios
         .post(
-          "http://127.0.0.1:8000/api-django/courses/courses/",
+          `${import.meta.env.VITE_API_DJANGO_URL}courses/courses/`,
           formattedData
         )
         .then((response) => {
