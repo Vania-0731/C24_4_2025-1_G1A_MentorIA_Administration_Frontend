@@ -18,13 +18,7 @@ const openCloudinaryWidget = async (setIsUploading, setProfilePictureUrl) => {
 
     // Verificar variables de entorno
     if (!cloudName || !uploadPreset) {
-      alert(`Error: Configuración de Cloudinary incompleta.
-      
-Valores detectados:
-- Cloud Name: ${cloudName || "NO ENCONTRADO"}
-- Upload Preset: ${uploadPreset || "NO ENCONTRADO"}
-
-Verifica que tu archivo .env esté en la raíz del proyecto y que las variables tengan el prefijo VITE_`);
+      alert(`Error: Configuración de Cloudinary incompleta.`);
       return;
     }
 
