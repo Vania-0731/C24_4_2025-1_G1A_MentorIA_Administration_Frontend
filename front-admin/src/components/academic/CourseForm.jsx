@@ -33,7 +33,7 @@ const CourseForm = ({ courseId, onCancel }) => {
 
     // Obtener lista de asignaturas (subjects)
     axios
-      .get(`${import.meta.env.VITE_API_DJANGO_URL}subjects/`)
+      .get(`${import.meta.env.VITE_API_DJANGO_URL}academic/subjects/`)
       .then((response) => {
         setSubjects(response.data);
       })
