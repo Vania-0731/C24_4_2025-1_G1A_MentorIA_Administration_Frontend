@@ -19,7 +19,7 @@ const CourseForm = ({ courseId, onCancel }) => {
   useEffect(() => {
     // Obtener lista de usuarios (solo los que tengan el rol de "professor")
     axios
-      .get("http://127.0.0.1:8000/api-django/auth/users/")
+      .get(`${import.meta.env.VITE_API_DJANGO_URL}auth/users/`)
       .then((response) => {
         // Filtrar usuarios solo por rol "professor"
         const filteredProfessors = response.data.filter(
