@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const API_BASE_URL_ENROLLMENTS = 'http://localhost:8000/api-django/courses/enrollments/';
-const API_BASE_URL_STUDENTS = 'http://127.0.0.1:8000/api-django/auth/students/';
-const API_BASE_URL_COURSES = 'http://127.0.0.1:8000/api-django/courses/courses/';
-const API_BASE_URL_PERIODS = 'http://127.0.0.1:8000/api-django/academic/periods/';
+const API_BASE_URL_ENROLLMENTS = `${import.meta.env.VITE_API_DJANGO_URL}courses/enrollments/`;
+const API_BASE_URL_STUDENTS = `${import.meta.env.VITE_API_DJANGO_URL}auth/students/`;
+const API_BASE_URL_COURSES = `${import.meta.env.VITE_API_DJANGO_URL}courses/courses/`;
+const API_BASE_URL_PERIODS = `${import.meta.env.VITE_API_DJANGO_URL}academic/periods/`;
 
 const enrollmentService = {
   getAllEnrollments: async () => {

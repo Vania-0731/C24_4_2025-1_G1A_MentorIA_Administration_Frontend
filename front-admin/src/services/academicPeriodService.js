@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000/api-django/academic/periods/';
+const API_URL = `${import.meta.env.VITE_API_DJANGO_URL}academic/periods/`;
 
 // Obtener todos los períodos académicos
 export const getPeriods = async () => {

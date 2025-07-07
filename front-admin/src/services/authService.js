@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000/api-django/auth/users/login/';
+const API_URL = `${import.meta.env.VITE_API_DJANGO_URL}auth/users/login/`;
 
 // Cambiamos el parámetro a 'credential' para que coincida con el backend
 export const login = async (credential) => { 

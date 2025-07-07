@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000/api-django/auth/professors/';
+const API_URL = `${import.meta.env.VITE_API_DJANGO_URL}auth/professors/`;
 
 // Obtener todos los profesores
 export const getProfessors = async () => {
