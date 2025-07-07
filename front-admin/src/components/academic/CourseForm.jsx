@@ -33,7 +33,7 @@ const CourseForm = ({ courseId, onCancel }) => {
 
     // Obtener lista de asignaturas (subjects)
     axios
-      .get("http://127.0.0.1:8000/api-django/academic/subjects/")
+      .get(`${import.meta.env.VITE_API_DJANGO_URL}subjects/`)
       .then((response) => {
         setSubjects(response.data);
       })
@@ -45,7 +45,7 @@ const CourseForm = ({ courseId, onCancel }) => {
       setIsEditMode(true);
       setMessage({ type: "", text: "" });
       axios
-        .get(`http://127.0.0.1:8000/api-django/courses/courses/${courseId}/`)
+        .get(`${import.meta.env.VITE_API_DJANGO_URL}courses/courses/${courseId}/`)
         .then((response) => {
           const courseData = response.data;
           setValue("subject", courseData.subject);
@@ -72,11 +72,11 @@ const CourseForm = ({ courseId, onCancel }) => {
     const formattedData = {
       ...data,
       professor: Array.isArray(data.professor)
-        ? `http://127.0.0.1:8000/api-django/auth/users/${data.professor[0]}/`
-        : `http://127.0.0.1:8000/api-django/auth/users/${data.professor}/`,
+        ? `${import.meta.env.VITE_API_DJANGO_URL}auth/users/${data.professor[0]}/`
+        : `${import.meta.env.VITE_API_DJANGO_URL}auth/users/${data.professor}/`,
       subject: Array.isArray(data.subject)
-        ? `http://127.0.0.1:8000/api-django/academic/subjects/${data.subject[0]}/`
-        : `http://127.0.0.1:8000/api-django/academic/subjects/${data.subject}/`,
+        ? `${import.meta.env.VITE_API_DJANGO_URL}academic/subjects/${data.subject[0]}/`
+        : `${import.meta.env.VITE_API_DJANGO_URL}academic/subjects/${data.subject}/`,
     };
 
 
