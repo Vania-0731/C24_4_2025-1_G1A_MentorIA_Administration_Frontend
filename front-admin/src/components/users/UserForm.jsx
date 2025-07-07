@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getCareers } from "../../services/careerService";
 import { getPeriods } from "../../services/academicPeriodService";
-import { createStudent, updateStudent } from "../../services/studentService";
-import { createProfessor, updateProfessor } from "../../services/professorService";
-import { createAdmin, updateAdmin } from "../../services/userService";
 
 // Componentes separados
 import BasicInfoForm from "./components/BasicInfoForm";
