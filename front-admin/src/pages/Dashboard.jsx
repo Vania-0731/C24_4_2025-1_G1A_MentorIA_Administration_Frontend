@@ -127,7 +127,7 @@ function Dashboard() {
                       </NavLink>
                     </div>
                     <div className="col-md-4">
-                      <NavLink to="/create-period" className="quick-action-btn">
+                      <NavLink to="/create-academic-period" className="quick-action-btn">
                         <i className="bi bi-plus-square"></i>
                         Nuevo Período
                       </NavLink>

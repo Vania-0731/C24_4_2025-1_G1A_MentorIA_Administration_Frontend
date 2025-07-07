@@ -26,7 +26,6 @@ const CourseForm = ({ courseId, onCancel }) => {
           (user) => user.role === "professor"
         );
         setProfessors(filteredProfessors);
-        console.log("Profesores filtrados:", filteredProfessors); // Verifica que los datos sean correctos
       })
       .catch((error) => {
         console.error("Error fetching professors:", error);
@@ -80,7 +79,6 @@ const CourseForm = ({ courseId, onCancel }) => {
         : `http://127.0.0.1:8000/api-django/academic/subjects/${data.subject}/`,
     };
 
-    console.log("Datos enviados:", formattedData);
 
     if (isEditMode) {
       // Actualizar curso existente
